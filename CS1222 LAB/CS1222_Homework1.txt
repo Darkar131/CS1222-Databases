@@ -1,0 +1,144 @@
+PART 1
+
+Q1: List the first name, last name, home phone, and gender of all members from Georgia who either have a home phone in area code 822 or are female
+A1:  select firstname, lastname, homephone, gender, region
+    -> from Members
+    -> where region='GA' and gender='f' or homephone Like'822%';
++-----------+-----------+------------+--------+--------+
+| firstname | lastname  | homephone  | gender | region |
++-----------+-----------+------------+--------+--------+
+| Michelle  | Henderson | 8221928273 | F      | GA     |
++-----------+-----------+------------+--------+--------+
+1 row in set (0.00 sec)
+
+
+Q2: List all of the information of tracks that do not have an MP3
+A2:  select * from Tracks where mp3=FALSE;
++---------+----------+------------+---------------+------+---------+
+| TitleID | TrackNum | TrackTitle | LengthSeconds | MP3  | RealAud |
++---------+----------+------------+---------------+------+---------+
+|       3 |        7 | Wooden Man |           314 |    0 |       0 |
+|       3 |        8 | UPS        |            97 |    0 |       0 |
+|       3 |        9 | Empty      |           182 |    0 |       0 |
+|       3 |       10 | Burrito    |            65 |    0 |       0 |
++---------+----------+------------+---------------+------+---------+
+4 rows in set (0.00 sec)
+
+Q3: List the TitleID, Title, and UPC of any titles whose UPC ends with a '2'
+A3: select titleId, title, upc from Titles where upc LIKE '%2';
++---------+-----------------+------------+
+| titleId | title           | upc        |
++---------+-----------------+------------+
+|       3 | Smell the Glove | 1283772282 |
+|       4 | Time Flies      | 1882344222 |
+|       5 | Neurotic Sequel | 2828830202 |
++---------+-----------------+------------+
+3 rows in set (0.00 sec)
+
+Q4: List the artist name and web address of any artists who have a web address. Rename the attributes artistname, webaddress as Artist Name, Web Address
+A4:  select artistname As WebAddress, webaddress As ArtistName from Artists;
++----------------+--------------------------+
+| WebAddress     | ArtistName               |
++----------------+--------------------------+
+| The Neurotics  | www.theneurotics.com     |
+| Louis Holiday  | NULL                     |
+| Word           | NULL                     |
+| Sonata         | www.classical.com/sonata |
+| The Bullets    | NULL                     |
+| Jose MacArthur | www.josemacarthur.com    |
+| Confused       | NULL                     |
+| The Kicks      | NULL                     |
+| Today          | www.today.com            |
+| 21 West Elm    | www.21westelm.com        |
+| Highlander     | NULL                     |
++----------------+--------------------------+
+
+Q5: List the TitleID, TrackNum, and TrackTitle of all tracks with 'Song' at the beginning of the TrackTitle
+A5:  select titleId, trackNum, trackTitle
+    -> from Tracks where TrackTitle LIKE 'song%';
++---------+----------+----------------+
+| titleId | trackNum | trackTitle     |
++---------+----------+----------------+
+|       5 |        1 | Song 1         |
+|       5 |        2 | Song 2         |
+|       5 |        3 | Song 3         |
+|       5 |        4 | Song 4         |
+|       5 |        5 | Song 5         |
+|       5 |        6 | Song 6         |
+|       5 |        7 | Song 7         |
+|       5 |        8 | Song 8         |
+|       5 |        9 | Song 8 and 1/2 |
++---------+----------+----------------+
+9 rows in set (0.00 sec)
+
+PART 2
+
+Q6: Report the average, shortest and longest track length in minutes of all tracks
+A6: select avg(lengthseconds)/60, min(lengthseconds)/60, max(lengthseconds)/60
+    -> from Tracks;
++-----------------------+-----------------------+-----------------------+
+| avg(lengthseconds)/60 | min(lengthseconds)/60 | max(lengthseconds)/60 |
++-----------------------+-----------------------+-----------------------+
+|            4.60133333 |                0.7500 |               13.6833 |
++-----------------------+-----------------------+-----------------------+
+1 row in set (0.03 sec) 
+
+Q7: Report the number of male members who are in US
+A7:  select gender, country, count(*)
+    -> from Members where country='USA';
++--------+---------+----------+
+| gender | country | count(*) |
++--------+---------+----------+
+| M      | USA     |       21 |
++--------+---------+----------+
+1 row in set (0.00 sec)
+
+Q8: Report the number of tracks for each TitleID
+A8: select titleId, count(*)
+    -> from Tracks group by titleId;
++---------+----------+
+| titleId | count(*) |
++---------+----------+
+|       1 |        8 |
+|       3 |       10 |
+|       4 |       10 |
+|       5 |        9 |
+|       6 |        5 |
+|       7 |        8 |
++---------+----------+
+6 rows in set (0.00 sec)
+
+Q9: Report the total time in minutes for each titleid
+A9: select titleId, sum(lengthseconds)/60
+    -> from Tracks
+    -> group by titleId;
++---------+-----------------------+
+| titleId | sum(lengthseconds)/60 |
++---------+-----------------------+
+|       1 |               37.2833 |
+|       3 |               35.4833 |
+|       4 |               36.8833 |
+|       5 |               34.7833 |
+|       6 |               44.3667 |
+|       7 |               41.2667 |
++---------+-----------------------+
+6 rows in set (0.00 sec) 
+
+Q10: Report the number of members by state and gender. Sort the results by the region
+A10: select region, gender, count(*) from members group by region order by region;
++--------+--------+----------+
+| region | gender | count(*) |
++--------+--------+----------+
+| CA     | M      |        1 |
+| GA     | M      |        3 |
+| IL     | M      |        1 |
+| IN     | M      |        2 |
+| NC     | M      |        1 |
+| NY     | M      |        2 |
+| OH     | M      |        2 |
+| ONT    | M      |        2 |
+| TX     | M      |        3 |
+| VA     | M      |        3 |
+| VT     | F      |        3 |
++--------+--------+----------+
+11 rows in set (0.05 sec)

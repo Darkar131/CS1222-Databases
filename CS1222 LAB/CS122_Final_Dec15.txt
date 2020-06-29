@@ -1,0 +1,74 @@
+Axel Montes Salazar
+
+Part 1: Short answers
+Q1. What is a primary key used for? Can you give me an example of a primary key in restaurants collection?
+->  A primary key is used to identify one of a kind, specially if 2 names are repeated but mean different things.
+    For example a restaurant with 2 identical names can be unique if I give it a unique restaurant_id. 
+
+Q2. What is JSON? Can you give an example of a JSON object.
+-> JSON is short for JavaScript Object Notation. For example I can convert a JSON file and send it to the server.
+
+Q3. What does CRUD stand for? Give an example of 2 of the operations used in MongoDB.
+-> CRUD stands for Create, Read, Update and Delete. Often used to describe the basic functionality of an app.
+   2 Examples are db.collection.update() in where you can update a existing data, the other could be db.collection.insert() which can be use to insert new data that was not there before.
+
+Part 2: I will give you MongoDB queries and you must describe what they do.
+Q4. db.users.find(
+	{$or: [{firstname: "Randy"}, {lastname: “Moss”}]}
+)
+
+4A->  Finds the user with the name Randy or Moss in the server.
+
+Q5. db.cars.find(
+	{make: "Honda"},
+	{make: 1, year: 1}
+)
+
+5A->  Finds cars made by Honda from listing by year in the server.
+ 
+Q6. db.cars.find(
+	{make: "Honda"},
+	{make: 1, year: 1, _id: 0}
+)
+
+6A->  Finds cars made by Honda, list its year made, and does not display its _id.
+
+Q7. db.restaurants.update(
+	{cuisine: "Japanese"},
+	{$set: {
+			address: {
+				street: "A new street name"
+			}
+		}
+	},
+	{multi: true}
+)
+
+7A->  Updates all the restaurants with the cuisine of Japanese under address and sets them into "A new street name".
+
+Part 3: Use the Restaurants collection to create a query that satisfies the question.
+Q8.  Count how many restaurants have a cuisine of “Bakery”
+->  db.restaurants.find( {"cuisine": "Bakery"} ).count();
+    691
+
+Q9. Update the address field for ALL restaurants that have a cuisine of “Bakery” to be the following:
+
+"address": {
+                "building": "10000",
+                "coord": [
+                        -50,
+                        2
+                ],
+                "street": "Other street",
+                "zipcode": "99999"
+        }
+->db.restaurants.update( {"cuisine": {$eq:"Bakery"}}, {$set: {"address": {"building": "10000", "coord":[-50, 2], "street": "Other street", "zipcode": "99999"}}}, {multi:true});
+
+Q10. Insert a new restaurant with the following information. The name of the restaurant is “Cal State LA Cuisine”. It has a cuisine of Italian, an address of 5151 State University Dr, Los Angeles, CA 90032 in building 1000. Its restaurant id will be 12345678. It will have no “coord”, “borough”, or “grades”.
+->db.restaurants.insert( {name: "Cal State LA Cuisine", cuisine:"Italian", address:"5151 State University Dr, Los Anegeles, CA 90032", building: "1000", restaurant_id: "12345678"}, {coord: 0, borough: 0, grades: 0} );
+
+Q11. Delete the above restaurant that you just inserted into the database
+->db.restaurant.remove( {"name": "Cal State LA Cusine"} );
+
+Q12. What is the name of the restaurant with the smallest zipcode? (You get one extra credit point if you can solve this with db.restaurants.aggregate())
+->db.restaurants.aggregate( {"zipcode": "$min" }).sort("zipcode": -1).limit(1);  (reference to Homework4)

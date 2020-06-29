@@ -1,0 +1,30 @@
+Axel Montes Salazar 
+
+
+1Q.What are the total number of documents in the pitching collection
+1A. 44139 documents
+
+2Q.Count the number of documents that are in the year of 1872
+2A.   db.pitching.find( {"year": 1872} ).count();
+    -> 23
+
+3Q.Count the number of documents that are between the year of 1870 to 1880
+3A.   db.pitching.find({"year": {$gt:1870, $lt:1880}}).count();
+    ->  232
+
+4Q.Which player_id has the highest ipouts?
+4A.   db.pitching.find({},{"ipouts": "$max"}).sort({"ipouts":-1}).limit(1);
+     -> { "_id" : ObjectId("5c0872e6ded6afe47af6dc1b"), "ipouts" : "" }  
+
+5Q.Find the average year in the whole pitching collection
+5A.   db.pitching.aggregate([ {"$group": { "_id": null, "avg": { "$avg": "$year" }}} ]);
+    -> { "_id" : null, "avg" : 1967.7864926708805 }
+
+6Q.Group the players by year and return the average ipouts per year
+6A.   db.pitching.aggregate( {"$match": {"player_id": "$player_id", "year": "$year}}, {"$group": {"$avg": "ipouts}} );
+
+
+7Q.Order the team_id by the number of players in the team and group by year and team_id
+7A.  db.pitching.aggregate([ {$group: "$team_id"}, {$group: {_id: "$team_id", "$year", count: {$count: "$_id"}}} ]) 
+ 
+

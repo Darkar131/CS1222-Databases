@@ -1,0 +1,126 @@
+Axel Montes Salazar
+
+1. List the title_name and book type of the books that are published earlier than all biography books
+
+ Select title_name, type, pubdate
+    -> From Titles
+    -> Where pubdate>='2000-07-31';
++----------------------------------+------------+------------+
+| title_name                       | type       | pubdate    |
++----------------------------------+------------+------------+
+| 1977!                            | history    | 2000-08-01 |
+| Ask Your System Administrator    | computer   | 2000-09-01 |
+| Exchange of Platitudes           | psychology | 2001-01-01 |
+| How About Never?                 | biography  | 2000-07-31 |
+| Just Wait Until After School     | children   | 2001-06-01 |
+| Kiss My Boo-Boo                  | children   | 2002-05-31 |
+| Perhaps It's a Glandular Problem | psychology | 2000-11-30 |
+| Spontaneous, Not Annoying        | biography  | 2000-08-31 |
++----------------------------------+------------+------------+
+8 rows in set (0.04 sec)
+
+2. List the title_name and book type of the books published by 'Abatis Publishers'
+
+ Select title_name, pub_name
+    -> From Titles T, Publishers P
+    -> Where pub_name='Abatis Publishers';
++-------------------------------------+-------------------+
+| title_name                          | pub_name          |
++-------------------------------------+-------------------+
+| 1977!                               | Abatis Publishers |
+| 200 Years of German Humor           | Abatis Publishers |
+| Ask Your System Administrator       | Abatis Publishers |
+| But I Did It Unconsciously          | Abatis Publishers |
+| Exchange of Platitudes              | Abatis Publishers |
+| How About Never?                    | Abatis Publishers |
+| I Blame My Mother                   | Abatis Publishers |
+| Just Wait Until After School        | Abatis Publishers |
+| Kiss My Boo-Boo                     | Abatis Publishers |
+| Not Without My Faberge Egg          | Abatis Publishers |
+| Perhaps It's a Glandular Problem    | Abatis Publishers |
+| Spontaneous, Not Annoying           | Abatis Publishers |
+| What Are The Civilian Applications? | Abatis Publishers |
++-------------------------------------+-------------------+
+13 rows in set (0.00 sec)
+
+3. Find the name(s) of the publisher(s) that have not published any book
+
+ Select title_name, pub_name, pubdate
+    -> From Titles, Publishers
+    -> Where pubdate is Null;
++----------------------------+---------------------+---------+
+| title_name                 | pub_name            | pubdate |
++----------------------------+---------------------+---------+
+| Not Without My Faberge Egg | Abatis Publishers   | NULL    |
+| Not Without My Faberge Egg | Core Dump Books     | NULL    |
+| Not Without My Faberge Egg | Schadenfreude Press | NULL    |
+| Not Without My Faberge Egg | Tenterhooks Press   | NULL    |
+| Not Without My Faberge Egg | PTR Press           | NULL    |
++----------------------------+---------------------+---------+
+
+4. Find the name(s) of the publisher(s) who have published computer books.
+
+ Select title_name, pub_name, type
+    -> From Titles, Publishers
+    -> Where type='computer';
++-------------------------------+---------------------+----------+
+| title_name                    | pub_name            | type     |
++-------------------------------+---------------------+----------+
+| Ask Your System Administrator | Abatis Publishers   | computer |
+| Ask Your System Administrator | Core Dump Books     | computer |
+| Ask Your System Administrator | Schadenfreude Press | computer |
+| Ask Your System Administrator | Tenterhooks Press   | computer |
+| Ask Your System Administrator | PTR Press           | computer |
++-------------------------------+---------------------+----------+
+5 rows in set (0.00 sec)
+
+5. Find the name(s) of the author(s) that have authored more than one book.
+
+ Select title_name, au_fname, au_lname
+    -> From Titles T, Title_Authors TA, Authors A
+    -> Where T.title_id= TA.title_id AND A.au_id= TA.au_id;
++-------------------------------------+-----------+-----------+
+| title_name                          | au_fname  | au_lname  |
++-------------------------------------+-----------+-----------+
+| 1977!                               | Sarah     | Buchman   |
+| 200 Years of German Humor           | Sarah     | Buchman   |
+| Ask Your System Administrator       | Christian | Kells     |
+| But I Did It Unconsciously          | Hallie    | Hull      |
+| But I Did It Unconsciously          | Klee      | Hull      |
+| Exchange of Platitudes              | Klee      | Hull      |
+| How About Never?                    | Wendy     | Heydemark |
+| I Blame My Mother                   | Wendy     | Heydemark |
+| I Blame My Mother                   | Klee      | Hull      |
+| Just Wait Until After School        |           | Kellsey   |
+| Kiss My Boo-Boo                     |           | Kellsey   |
+| Not Without My Faberge Egg          | Wendy     | Heydemark |
+| Perhaps It's a Glandular Problem    | Hallie    | Hull      |
+| Perhaps It's a Glandular Problem    | Klee      | Hull      |
+| Perhaps It's a Glandular Problem    |           | Kellsey   |
+| Spontaneous, Not Annoying           | Wendy     | Heydemark |
+| What Are The Civilian Applications? | Sarah     | Buchman   |
++-------------------------------------+-----------+-----------+
+17 rows in set (0.00 sec)
+
+6. Find the name(s) of the publisher(s) who published the least expensive book.
+
+ Select title_name, pub_name, min(price)
+    -> From Titles, Publishers;
++------------+-------------------+------------+
+| title_name | pub_name          | min(price) |
++------------+-------------------+------------+
+| 1977!      | Abatis Publishers |       6.95 |
++------------+-------------------+------------+
+1 row in set (0.00 sec)
+
+7. Find the name(s) of the author(s) who wrote the book with the greatest number of pages.
+
+ Select au_fname, au_lname
+    -> From Authors A, Title_Authors TA, Titles T
+    -> Where A.au_id =TA.au_id and TA.title_id =T.title_id and pages =(Select max(pages) From Titles);
++-----------+----------+
+| au_fname  | au_lname |
++-----------+----------+
+| Christian | Kells    |
++-----------+----------+
+1 row in set (0.12 sec)

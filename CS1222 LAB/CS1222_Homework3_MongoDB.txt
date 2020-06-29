@@ -1,0 +1,33 @@
+Axel Montes Salazar
+
+1Q. Find all boroughs from "Queens"
+1A: db.restaurants.find( { "borough": "Queens" } ).pretty().count()
+    5656
+    
+2Q. Give me the name of the restaurant that has a restaurant_id of "40377124"
+2A: db.restaurants.find( {""} ).pretty()
+
+
+3Q. Find all Italian cuisine restaurants
+3A: db.restaurants.find( {"cuisine": "Italian" } ).pretty().count()
+    1070
+
+4Q. Give me the names of the restaurants that are in building 703. (Hint, there are 6 of them). Use a projection to only show the name and address fields of the restaurants
+4A: db.restaurants.find({"address.building":"703"}, {"name":1 "address":1}).pretty().count()
+    
+
+5Q. Give me the name of the restaurant that is located on "Spring Street" in building "300". Use a projection to only show the name and address fields of the restaurant
+5A: db.restaurants.find({"address.street":"Spring Street"}, {"address.building":"300"}).pretty().count()
+    44
+
+6Q. Find all restaurants that have either a cuisine of "American" or a cuisine of "French". Use a projection to only show the name and cuisine of the restaurants
+6A: db.restaurants.find({$or:[{"cuisine":"American"}, {"cuisine":"French"}]}).pretty() 
+
+
+7Q. Find all restaurants that received a score greater than 100. Use a projection to only show the name and the grades score of the restaurants
+7A: db.restaurants.find({"grades.score": {$gt:100}}, {"name":1, "grades":1}).pretty()
+    1
+
+8Q. Find all restaurants that are in the 10065 zipcode. Use a projection to EXCLUDE the borough, cuisine, and grades fields
+8A: db.restaurants.find({"address.zipcode": "10065"}, {"borough":0, "cuisine":0, "grades":0}).pretty().count()
+    169

@@ -1,0 +1,79 @@
+Axel Montes Salazar
+
+Part 1: Short answers
+
+Q1. What is a primary key used for? Can you give me an example of a primary key in the Lyrics database?
+
+A1: A Primary key is the key that is given after I select a candiate key in which consist of its own unique identity. 
+A good example of a primary key is TitleID in which can be given any 0-infinity without repeating which is usally one of its unique kind than Title in which can be repeated, but as long as we can identify its primary key then it sets them apart.
+
+Q2. What is the difference between the Concat function and the Concat_WS function?
+
+A2: Concat will return my full text all smush together while Concat_WS can have some restriction like separators. 
+For example if I select concat(firstname, lastname) from members it will return something like BarackObama, but if I select concat_WS(' ', firstname, lastname) from members it will return Barack Obama because I seperated it.
+
+Q3. What is the purpose of doing a join between two tables. Ex. Why would I ever want to join the Tracks and Titles tables together? 
+
+A3: The purpose of joining two tables is to compare data or see where the data derives from.
+  For example joining Tracks and Titles, As a result, could give me the name of the song and the album it comes from as well as other details of how long the track is and its genre or I could put them in order of the tracks for every title it has produce.
+
+Q4. Why is durability important in database design?
+
+A4: The term durability for me means to last as long as possible, assuming a company could want their database to be secure and can save data even if something were to happen to it, there could be a way to restore it back up.
+
+
+Part 2: I will give you SQL queries and you must describe what they do.
+
+Q5. select m.lastname, m.firstname, s.lastname
+	from members m inner join salespeople s using (salesID)
+	order by m.lastname asc;
+A5: It selects the Members first and last name and the last name of salespeople while it matches the SalesID with its members. It is order by ascending lastname which starts from Alvarez.
+
+Q6. select concat_ws(' ', firstname, lastname) as "Member Name"
+	from members;
+
+A6: Selects the Members first and last name while leaving space to separate between first and last name while given them a category "Member Name" than just Concat_WS as a result.
+
+Q7. select studioID, studioname, base
+	from salespeople sa inner join studios st
+	on (sa.salesID = st.salesid)
+	where base < 300
+
+A7: It selects the studioID, studioname, base which is the income, from salespeople Sa, while it joins another table from studios St, while sa.salesID is true to st.salesID and their base is less than 300.
+
+Q8. SELECT artistName 
+	FROM Artists
+	WHERE artistID IN 
+		(SELECT artistID
+                       FROM    Titles)
+
+A8: It selects the ArtistName from Artists who have work on a Title in where ArtistID matches the title they work on.
+
+
+
+Part 3: Use the Lyrics database to create a query that satisfies the question.
+
+Q9. List the first name, last name, and region of members who do not have an email.
+
+A9:
+
+Q10. List the first name, last name, and region of members who do not have an email and they either have a homephone ending with a 2 or a 3.
+
+A10;
+
+
+Q11. List the number of track titles that begin with the letter 's' and the average length of these tracks in seconds
+
+A11:
+
+Q12. Report the number of members by state and gender. Sort the results by the region
+
+A12:
+
+Q13. List the names of members in the 'Highlander' band.
+
+A13:
+
+Q14. Report the longest track title.
+
+A14:

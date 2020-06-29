@@ -1,0 +1,62 @@
+Part 1: Short answers
+
+Q1. What is a primary key used for? Can you give me an example of a primary key in restaurants collection?
+
+-> A primary key is used to identify one of a kind, specially if 2 names are repeated but mean different things.
+
+Q2. What is the MongoDB equivalent for a MySQL table?
+
+-> MongoDB only uses a table to get the collection of it and gives you the data within the JSON file. MySQL gives tables
+and rows which is also another way to input data which works great with joining tables while MongoDB you can input a unique id with its own data making it easier.
+
+Q3. What does CRUD stand for?
+
+--> CRUD stands for Create, Read, Update and Delete. Often used to describe the basic functionality of an app.
+
+Part 2: I will give you MongoDB queries and you must describe what they do.
+Q4. db.users.find(
+	{firstname: "Randy", lastname: “moss”}
+)
+
+-> It finds the user with the name Randy Moss
+
+Q5. db.cars.find(
+	{make: "Toyota"},
+	{year: 1}
+)
+
+*-> Finds Car brands from Toyota of the latest year 
+
+Q6. db.restaurants.update(
+	{cuisine: "Japanese"},
+	{$set: {address.street: "A new street name"}},
+	{multi: true}
+)
+
+->Updates all Japanese cuisine to a new street address
+
+
+Part 3: Use the Restaurants collection to create a query that satisfies the question.
+
+Q7. Find all of the restaurants that have a cuisine of “Jewish/Kosher”
+
+-> db.restaurants.find( {"cuisine": "Jewish/Kosher"}, {"cusine": 1, "name": 1, "_id": 1} ).pretty();
+
+Q8.  Count how many restaurants have a cuisine of “Jewish/Kosher”
+
+--> db.restaurants.find( {"cuisine": {$eq:"Jewish/Kosher"}} ).count();
+    316
+
+Q9. Update the address field for the restaurant that has a restaurant_id of "30075445" to be the following:
+
+"address": {
+                "building": "10000",
+                "coord": [
+                        -50,
+                        2
+                ],
+                "street": "Other street",
+                "zipcode": "99999"
+        }
+
+-> db.restaurants.find( {"restaurant_id": "30075445"}, {$set: {"address": "building": "1000", "coord": [-50,2], "street": "Other street", "zipcode": "99999"}}, {upsert:true} );

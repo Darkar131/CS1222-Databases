@@ -1,0 +1,70 @@
+Axel Montes Salazar
+
+
+*1. Insert an object containing name of 'Charlie', age of 25 and position of 'lecturer' to the users collection
+db.users.insert( {name: "Charlie", age: 25, position: "Lecturer"} )
+WriteResult({ "nInserted" : 1 })
+> db.users.find().pretty()
+{
+        "_id" : ObjectId("5bf07f9d9f3aac34d750d829"),
+        "name" : "Charlie",
+        "age" : 25,
+        "position" : "Lecturer"
+}
+
+*2. Insert another user object containing name of 'Alice', age of 20, position of 'student' and grade of 84 to the users collection
+db.users.insert( {"name": "Alice", "age": 20, "position" : "Student", "grade": "84"} )
+WriteResult({ "nInserted" : 1 })
+> db.users.find({name: "Alice"}).pretty()
+{
+        "_id" : ObjectId("5bf086dd9f3aac34d750d82d"),
+        "name" : "Alice",
+        "age" : "20",
+        "position" : "Student",
+        "grade" : "84"
+}
+
+*3. Insert another user object containing name of 'Bob', age of 21, position of 'student' and grade of 89 to the users collection
+db.users.insert( {"name": "Bob", "age": "21", "position": "Student", "grade": "89"} )
+WriteResult({ "nInserted" : 1 })
+> db.users.find({name: "Bob"}).pretty()
+{
+        "_id" : ObjectId("5bf081bc9f3aac34d750d82b"),
+        "name" : "Bob",
+        "age" : "21",
+        "position" : "Student"
+        "grade": "89"
+}
+
+
+*4. Update user object of 'Alice' to grade 95
+db.users.update({name: "Alice"}, {name: "Alice", "age": "20", "position": "student", "grade": "95"})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.users.find({name: "Alice"}).pretty()
+{
+        "_id" : ObjectId("5bf0810d9f3aac34d750d82a"),
+        "name" : "Alice",
+        "age" : "20",
+        "position" : "Student"
+        "grade": "95"
+}
+
+*5. Delete user 'Bob'
+db.users.remove( {"name": "Bob"} )
+WriteResult({ "nRemoved" : 1 })
+
+*6. Insert another user object containing name of 'John', age of 30, position of 'student' and grade of 94 to the users collection
+ db.users.insert( {"name": "John", "age": "30", "position": "student", "grade": "94"} )
+WriteResult({ "nInserted" : 1 })
+> db.users.find({"name": "John"}).pretty()
+{
+        "_id" : ObjectId("5bf084aa9f3aac34d750d82c"),
+        "name" : "John",
+        "age" : "30",
+        "position" : "student",
+        "grade" : "94"
+}
+
+*7. Update users of position 'student' to have a new field called homeAddress containing of follwing json:
+
+db.users.update({position: "student"}, {$set: {position: {street: "1234 Random St.", city: "Los Angeles", state: "CA"}} }, {multi: true} )

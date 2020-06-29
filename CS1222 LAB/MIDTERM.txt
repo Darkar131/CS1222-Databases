@@ -1,0 +1,113 @@
+Axel Montes Salazar
+
+Part 1: Short answers
+
+Q1. What is a primary key used for? Can you give me an example of a primary key in the Lyrics database?
+
+A1: A Primary key is the key that is given after I select a candiate key in which consist of its own unique identity. 
+A good example of a primary key is TitleID in which can be given any 0-infinity without repeating which is usally one of its unique kind than Title in which can be repeated, but as long as we can identify its primary key then it sets them apart.
+
+Q2. What are all the tables in the Lyrics database?
+
+A2: The tables of Lyrics database is the collection of information about artists who publish songs in which I can track all the information, titles, studios, salespeople, members and who made what and who work with one another.
+
+Q3. What are some of the differences between an equi-join and an inner join?
+
+A3: Equi-join brings multiple tables together as long as it especifies which tables match the command, while inner-join gives same result but with relational specification ON where clause.
+
+Q4. Why is atomicity important in database design?
+
+A4: Atomicity is important to users that may be searching or buying something. For example, if I buy something from Amazon but then I decide to cancel, I want my transaction to cancel and make sure that my money stays in my account afterwards.
+
+
+Part 2: I will give you SQL queries and you must describe what they do.
+Q5. select title
+	from titles
+	where not Genre = 'Jazz';
+
+A5: It results all the titles while removing any title that contains the genre jazz.
+
+Q6. select lastname, firstname, region, birthday
+	from Members
+	where birthday in (select birthday
+			     from Members
+			     where email is not null)
+
+A6: It results with the first and last name, region, and birthday infomation from the members who have an email but does not display when call. It removes everyone else who dont have an email and will be excluded from the list.
+
+Q7. select Sales.Firstname As EmpFirst, Sales.Lastname as EmpLast, 
+	Sup.Firstname as SupFirst, Sup.Lastname as SupLast
+	from Salespeople Sales inner join Salespeople Sup 
+	On Sales.Supervisor=Sup.SalesID
+
+A7: It results the information of sales supervisor who most likely have work together with other supervisors.
+
+Q8. select Region, Gender, Count(*) As Num 
+	from Members 
+	where Email is null group by region, gender
+
+A8: It results from information of members who have a valid email and counts the number of people within the region and their gender display.
+
+
+Part 3: Use the Lyrics database to create a query that satisfies the question.
+
+Q9. List the artist name of the artists who do not have a webaddress and their leadsource is “Directmail” 
+Question 9 CANCEL 
+
+Q10. List the names of members in the artist called 'Today'. 
+
+A10: 
+
+Q11. Report the total runtime in minutes FOR EACH album in the Titles table.
+
+A11:  select T.titleID, sum(lengthseconds)/60, TA.title
+    -> from Tracks T, Titles TA
+    -> group by titleID;
++---------+-----------------------+--------------------+
+| titleID | sum(lengthseconds)/60 | title              |
++---------+-----------------------+--------------------+
+|       1 |              223.7000 | Meet the Neurotics |
+|       3 |              212.9000 | Meet the Neurotics |
+|       4 |              236.3000 | Meet the Neurotics |
+|       5 |              208.7000 | Meet the Neurotics |
+|       6 |              266.2000 | Meet the Neurotics |
+|       7 |              247.6000 | Meet the Neurotics |
++---------+-----------------------+--------------------+
+6 rows in set (0.00 sec)
+
+Q12. List the firstname, lastname of members who are represented by the salesperson “Lisa Williams”
+
+A12:  select M.firstname, M.lastname, S.firstname, S.lastname
+    -> from Members M, Salespeople S
+    -> where M.SalesID=S.SalesID AND M.SalesID='2';
++-----------+-----------+-----------+----------+
+| firstname | lastname  | firstname | lastname |
++-----------+-----------+-----------+----------+
+| Roberto   | Alvarez   | Lisa      | Williams |
+| Warren    | Boyer     | Lisa      | Williams |
+| Michelle  | Henderson | Lisa      | Williams |
+| William   | Morrow    | Lisa      | Williams |
+| Aiden     | Franks    | Lisa      | Williams |
+| Bryce     | Sanders   | Lisa      | Williams |
+| Tony      | Wong      | Lisa      | Williams |
+| Louis     | Holiday   | Lisa      | Williams |
+| Vic       | Cleaver   | Lisa      | Williams |
+| Davis     | Goodman   | Lisa      | Williams |
++-----------+-----------+-----------+----------+
+10 rows in set (0.04 sec)
+
+Q13. List EACH salesperson’s firstname along with the number of Members that EACH SalesPerson represents.
+
+A13:  select S.firstname, S.salesID, sum(M.salesID)
+    -> from Salespeople S, Members M
+    -> where S.salesID=M.salesID
+    -> group by SalesID;
++-----------+---------+----------------+
+| firstname | salesID | sum(M.salesID) |
++-----------+---------+----------------+
+| Lisa      |       2 |             20 |
+| Bob       |       1 |              6 |
+| Clint     |       3 |             21 |
++-----------+---------+----------------+
+3 rows in set (0.00 sec)
+

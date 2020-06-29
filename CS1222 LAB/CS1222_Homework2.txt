@@ -1,0 +1,80 @@
+Axel Montes Salazar
+
+Aggregation
+
+1. List the following about history books: number of history books, the minimum price, maximum price, and average sales. The format of output is: "Number" "Min Price" "Max Price" "Average Sale"
+mysql> select pub_id AS Publisher_ID, count(*) AS Number,  min(price) AS 'Min Price', max(price) AS 'Max Price', avg(price) AS 'Average Price'
+    -> from Titles
+    -> group by pub_id
+    -> order by avg(price);
++--------------+--------+-----------+-----------+---------------+
+| Publisher_ID | Number | Min Price | Max Price | Average Price |
++--------------+--------+-----------+-----------+---------------+
+| P04          |      5 |      6.95 |     13.95 |     10.376000 |
+| P01          |      4 |     12.99 |     21.99 |     18.310000 |
+| P03          |      3 |     19.95 |     29.99 |     24.630000 |
+| P02          |      1 |     39.95 |     39.95 |     39.950000 |
++--------------+--------+-----------+-----------+---------------+
+4 rows in set (0.09 sec)
+
+2. List the number of books and the average number of pages published by pub_id 01.
+mysql> select type, Count(*), avg(pages)
+    -> from Titles
+    -> group by type;
++------------+----------+------------+
+| type       | Count(*) | avg(pages) |
++------------+----------+------------+
+| history    |        3 |   307.6667 |
+| computer   |        1 |  1226.0000 |
+| psychology |        3 |   512.3333 |
+| biography  |        4 |   437.6667 |
+| children   |        2 |    54.0000 |
++------------+----------+------------+
+5 rows in set (0.00 sec)
+
+3. For each book type, list the the number of books and the average price. Sort the results by the number of books
+ select type, count(*), avg(price)
+    -> from Titles
+    -> group by type;
++------------+----------+------------+
+| type       | count(*) | avg(price) |
++------------+----------+------------+
+| history    |        3 |  23.976667 |
+| computer   |        1 |  39.950000 |
+| psychology |        3 |   9.310000 |
+| biography  |        4 |  18.963333 |
+| children   |        2 |  11.975000 |
++------------+----------+------------+
+5 rows in set (0.00 sec)
+
+ Functions
+
+4. List the name(s) of the publisher(s) that published the book with the shortest title name.
+select pub_name, char_length(pub_name) from publishers
+    -> where char_length(pub_name)<10 group by char_length(pub_name);
++-----------+-----------------------+
+| pub_name  | char_length(pub_name) |
++-----------+-----------------------+
+| PTR Press |                     9 |
++-----------+-----------------------+
+1 row in set (0.00 sec)
+
+5. For each author, list the author id, area code, and the phone number without the area code.
+select au_id, phone from authors
+    -> where phone LIKE '%';
++-------+--------------+
+| au_id | phone        |
++-------+--------------+
+| A01   | 718-496-7223 |
+| A02   | 303-986-7020 |
+| A03   | 415-549-4278 |
+| A04   | 415-549-4278 |
+| A05   | 212-771-4680 |
+| A06   | 650-836-7128 |
+| A07   | 941-925-0752 |
++-------+--------------+
+7 rows in set (0.00 sec)
+
+6. List the author names in the form <first initial>, period, space, <last name>, e.g. K. Hull. Order the results first by last name, then by first name. Only list the authors who have both a first name and a last name in the database.
+
+
