@@ -1,7 +1,7 @@
 # CS1222-Databases
 
 The introduction to understand our every day technology world through the use of databases that stores our valuable information.
-Course teach by a skillful NASA Jet Propulsion Laboratory employee on sight.
+Course teach by a skillful NASA Jet Propulsion Laboratory employee on site.
 
 Understanding and creating a set of data structure with JSON or .cvs files from scratch running in our local machines. Manipulating data a collection of data organize to fit our needs, pulling/creating/modify to organize our data using two distinctive technologies such as MySQL by pulling rows/tables of data and MongoDB documents to insert/move data quickly for faster and simpler solutions.
 
